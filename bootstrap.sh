@@ -12,6 +12,9 @@ svn co https://cvs.khronos.org/svn/repos/registry/trunk/public/cl/sdk/2.0/docs/m
 
 rm -rf build
 mkdir build
+mkdir build/gl
+mkdir build/cl
+mkdir build/gl/4.0 build/cl/1.2 build/cl/2.0
 
 rm -rf venv
 virtualenv -p python3 venv

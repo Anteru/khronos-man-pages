@@ -5,6 +5,7 @@ import glob
 import os
 import collections
 from jinja2 import Environment, FileSystemLoader
+import shutil
 
 class OpenGLPageParser(HTMLParser):
 	def GetReferenceEntry (self):
@@ -62,4 +63,14 @@ if __name__ == '__main__':
 	jinjaEnv = Environment(loader=FileSystemLoader('templates'))
 	
 	indexTemplate = jinjaEnv.get_template ('gl-sidebar.html')
-	print (indexTemplate.render(glIndex=glIndex.ToNestedIndex(),glslIndex=glslIndex.ToNestedIndex()))
+	with open('build/gl/4.0/sidebar.html', 'w') as outputFile:
+		outputFile.write (indexTemplate.render(
+			glIndex=glIndex.ToNestedIndex(),
+			glslIndex=glslIndex.ToNestedIndex()))
+		
+	with open('build/gl/4.0/index.html', 'w') as outputFile:
+		outputFile.write (jinjaEnv.get_template ('index.html').render (
+			title = 'OpenGL 4.x'))
+		
+	for page in glob.glob ('src/opengl/4.0/html/*html') + glob.glob ('src/opengl/4.0/html/*.css'):
+		shutil.copy (page, 'build/gl/4.0/' + os.path.basename (page))
