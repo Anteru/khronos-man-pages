@@ -1,0 +1,161 @@
+<head>
+    <title>OpenGL 4.x Reference Pages</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <style>
+    li.collapsed > ul {
+		display: none;
+    }
+    
+    ul.level-1, ul.level-2 {
+		list-style: none;
+		padding-left: 0;
+	}
+	
+	ul.level-3 {
+		padding-left: 40px;
+		margin-left: 0;
+	}
+	
+	li ul {
+		margin-left: 22px;
+	}
+	
+	ul.level-1 > li:before, ul li.collapsed:before, ul li.expanded:before {
+		width: 16px;
+		display: inline-block;
+		border: 1px solid #CCC;
+		text-align: center;
+		font-size: 14px;
+		line-height: 16px;
+		margin-right: 4px;
+		vertical-align: middle;
+	}
+	
+	ul.level-1 > li:before, ul.level-2 > li:before
+	{
+		content: '\2022';
+	}
+	
+	ul li.collapsed:before {
+		content: '+';
+	}
+	
+	ul li.expanded:before {
+		content: '-';
+	}
+	
+	ul.level-1 li:hover, ul.level-2 li:hover {
+		cursor: pointer;
+	}
+	
+	#navwrap {
+		padding-left: 8px;
+	}
+	
+	form {
+		padding: 0;
+	}
+	
+	ul.level-3 a {
+		display: inline-block;
+		width: 100%;
+		text-decoration: none;
+	}
+	
+	ul.level-3 a:hover {
+		text-decoration: underline;
+	}
+    </style>
+</head>
+<body>
+    <div id="navwrap">
+		<form id="search" style="border-bottom: 1px solid #CCC; padding-bottom: 8px; margin-bottom: 8px;">
+			<h1 style="padding: 4px;">Search</h1>
+			<div>
+				<span class="ui-helper-hidden-accessible" aria-live="polite" role="status"></span><input autocomplete="off" class="ui-autocomplete-input" placeholder="function" id="search-box" type="text">
+				<button type="submit">Go</button>
+			</div>
+		</form>
+		<ul id="containerul" class="level-1">
+			<li>
+				<a href="start.html" target="pagedisplay">Introduction</a>
+			</li>
+			<li class="collapsed">
+				<span class="level-1 label">API entry points</span>
+				
+				<ul class="level-2">
+				{% for letter, entries in glIndex.items() %}
+					<li class="collapsed">
+						<span class="level-2 label">{{ letter }}</span>
+						<ul class="level-3">
+						{% for (label, link) in entries %}
+							<li><a href="{{ link }}" target="pagedisplay">{{ label }}</a></li>
+						{% endfor %}
+						</ul>
+					</li>
+				{% endfor %}
+				</ul>
+			</li>
+			<li class="collapsed">
+				<span class="level-1 label">GLSL functions</span>
+				<ul class="level-2">
+				{% for letter, entries in glslIndex.items() %}
+					<li class="collapsed">
+						<span class="level-2 label">{{ letter }}</span>
+						<ul class="level-3">
+						{% for (label, link) in entries %}
+							<li><a href="{{ link }}" target="pagedisplay">{{ label }}</a></li>
+						{% endfor %}
+						</ul>
+					</li>
+				{% endfor %}
+				</ul>
+			</li>
+		</ul>
+	</div> <!-- End containerurl -->
+    <script type="text/javascript">
+    $(document).ready (function () {
+        var entries = new Array ();
+        var links = {};
+        var entryLinks = $('a[target="pagedisplay"]').each (function (e) {
+            entries.push ($(this).text());
+            links [$(this).text()] = {element: $(this), url: $(this).attr ('href')};
+        });
+        $('#search-box').autocomplete ({source : entries});
+        
+        $('ul.level-1 > li, ul.level-2 > li').each (function (label) {        
+			var currentItem = $(this);
+			currentItem.on ('click', function (e) {
+				currentItem.toggleClass('collapsed expanded');
+				e.preventDefault(); 
+				e.stopPropagation(); 
+			});
+        });
+        
+        $('ul.level-1 a').each (function (link) {
+			var currentItem = $(this);
+			currentItem.on ('click', function (e) {
+				e.stopPropagation ();
+			});
+        });
+        
+        $('#search').submit (function (e) {
+            var target = $('#search-box').val ();
+            window.open (links [target].url, 'pagedisplay');
+
+            // Walk the tree up and expand the ULs
+            var parentULs = links [target].element.parentsUntil ('div', 'li');
+            parentULs.each (function (e) {
+				var currentItem = $(this);
+                if (currentItem.hasClass ('collapsed')) {
+					currentItem.removeClass ('collapsed').addClass ('expanded');
+                }
+            });
+
+            e.preventDefault ();
+        });
+    });
+    </script>
+</body>
