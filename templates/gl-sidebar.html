@@ -120,8 +120,9 @@
         var entries = new Array ();
         var links = {};
         var entryLinks = $('a[target="pagedisplay"]').each (function (e) {
-            entries.push ($(this).text());
-            links [$(this).text()] = {element: $(this), url: $(this).attr ('href')};
+			var entry = $(this).text().trim();
+            entries.push (entry);
+            links [entry] = {element: $(this), url: $(this).attr ('href')};
         });
         $('#search-box').autocomplete ({source : entries});
         
