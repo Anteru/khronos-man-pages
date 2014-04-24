@@ -17,12 +17,12 @@ mkdir build/cl
 mkdir build/gl/4.0 build/cl/1.2 build/cl/2.0
 
 mkdir build/offline
-mkdir build/offline/gl
-mkdir build/offline/cl
-mkdir build/offline/gl/4.0 build/offline/cl/1.2 build/offline/cl/2.0
+
+wget https://github.com/mathjax/MathJax/zipball/v2.2-latest -O build/offline/mathjax-2.2.zip
 
 rm -rf venv
 virtualenv -p python3 venv
 source venv/bin/activate
 pip install jinja2
 pip install beautifulsoup4
+pip install lxml
