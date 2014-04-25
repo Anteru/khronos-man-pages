@@ -86,7 +86,7 @@ class OnlineDependencyResolver:
 		tags.
 
 		Returns the adjusted HTML."""
-		content = BeautifulSoup (open(page))
+		content = BeautifulSoup (open(page), 'lxml')
 
 		# Find and replace script tags with local version
 		for script in content.find_all ('script'):
