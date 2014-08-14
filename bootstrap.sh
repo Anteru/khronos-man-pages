@@ -6,9 +6,9 @@ mkdir src
 mkdir src/opengl
 svn co -q https://cvs.khronos.org/svn/repos/ogl/trunk/ecosystem/public/sdk/docs/man4/ src/opengl/4.0
 
-mkdir src/opencl
-svn co -q https://cvs.khronos.org/svn/repos/registry/trunk/public/cl/sdk/1.2/docs/man/ src/opencl/1.2
-svn co -q https://cvs.khronos.org/svn/repos/registry/trunk/public/cl/sdk/2.0/docs/man/ src/opencl/2.0
+# mkdir src/opencl
+# svn co -q https://cvs.khronos.org/svn/repos/registry/trunk/public/cl/sdk/1.2/docs/man/ src/opencl/1.2
+# svn co -q https://cvs.khronos.org/svn/repos/registry/trunk/public/cl/sdk/2.0/docs/man/ src/opencl/2.0
 
 rm -rf build
 mkdir build
